@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthHub - Your Wellness Companion</title>
+    <link rel="stylesheet" href="mystyle.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Login/Signup Page -->
+    <div id="auth-page" class="auth-container">
+        <div class="auth-form" id="login-form">
+            <h2><i class="fas fa-heartbeat"></i> HealthHub</h2>
+            <p class="auth-subtitle">Welcome back! Please login to continue</p>
+            
+            <div class="form-group">
+                <label for="login-email">Email</label>
+                <input type="email" id="login-email" placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label for="login-password">Password</label>
+                <input type="password" id="login-password" placeholder="Enter your password">
+            </div>
+            <button class="auth-btn" id="login-btn">Login</button>
+            <p class="auth-switch">Don't have an account? <a href="#" id="show-signup">Sign up</a></p>
+        </div>
+
+        <div class="auth-form hidden" id="signup-form">
+            <h2><i class="fas fa-heartbeat"></i> HealthHub</h2>
+            <p class="auth-subtitle">Create your account to get started</p>
+            
+            <div class="form-group">
+                <label for="signup-name">Full Name</label>
+                <input type="text" id="signup-name" placeholder="Enter your full name">
+            </div>
+            <div class="form-group">
+                <label for="signup-email">Email</label>
+                <input type="email" id="signup-email" placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label for="signup-password">Password</label>
+                <input type="password" id="signup-password" placeholder="Create a password">
+            </div>
+            <div class="form-group">
+                <label for="signup-confirm">Confirm Password</label>
+                <input type="password" id="signup-confirm" placeholder="Confirm your password">
+            </div>
+            <button class="auth-btn" id="signup-btn">Sign Up</button>
+            <p class="auth-switch">Already have an account? <a href="#" id="show-login">Login</a></p>
+        </div>
+    </div>
+
+    <!-- Main App (hidden until login) -->
+    <div id="app-container" class="hidden">
+        <div class="container">
+            <header>
+                <h1><i class="fas fa-heartbeat"></i> HealthHub</h1>
+                <div class="user-profile">
+                    <img src="image.png" alt="User" id="user-avatar">
+                    <span id="user-name">User</span>
+                    <button id="logout-btn"><i class="fas fa-sign-out-alt"></i></button>
+                </div>
+            </header>
+
+            <nav class="tabs">
+                <button class="tab-btn active" data-tab="dashboard"><i class="fas fa-home"></i> Dashboard</button>
+                <button class="tab-btn" data-tab="health"><i class="fas fa-heartbeat"></i> Health</button>
+                <button class="tab-btn" data-tab="exercise"><i class="fas fa-dumbbell"></i> Exercise</button>
+                <button class="tab-btn" data-tab="nutrition"><i class="fas fa-utensils"></i> Nutrition</button>
+                <button class="tab-btn" data-tab="music"><i class="fas fa-music"></i> Music</button>
+                <button class="tab-btn" data-tab="reminders"><i class="fas fa-bell"></i> Reminders</button>
+            </nav>
+
+            <main>
+                <!-- Dashboard Tab -->
+                <div id="dashboard" class="tab-content active">
+                    <h2><i class="fas fa-tachometer-alt"></i> Dashboard</h2>
+                   
+                        <div class="stat-card">
+                            <h3>Water Intake</h3>
+                            <p class="stat-value" id="water-intake">0L</p>
+                            <p class="stat-goal">Goal: 2L</p>
+                            <div class="progress-bar">
+                                <div class="progress" id="water-progress" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Calories Burned</h3>
+                            <p class="stat-value" id="calories-burned">0</p>
+                            <p class="stat-goal">Goal: 500</p>
+                            <div class="progress-bar">
+                                <div class="progress" id="calories-progress" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Sleep</h3>
+                            <p class="stat-value" id="sleep-hours">0h</p>
+                            <p class="stat-goal">Goal: 8h</p>
+                            <div class="progress-bar">
+                                <div class="progress" id="sleep-progress" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="quick-actions">
+                        <h3>Quick Actions</h3>
+                        <div class="action-buttons">
+                            <button class="action-btn" id="log-meal-btn"><i class="fas fa-utensils"></i> Log Meal</button>
+                            <button class="action-btn" id="start-workout-btn"><i class="fas fa-running"></i> Start Workout</button>
+                            <button class="action-btn" id="set-reminder-btn"><i class="fas fa-bell"></i> Set Reminder</button>
+                            <button class="action-btn" id="play-music-btn"><i class="fas fa-music"></i> Play Music</button>
+                        </div>
+                    </div>
+                    
+                    <div class="upcoming-reminders">
+                        <h3>Upcoming Reminders</h3>
+                        <ul id="reminders-list">
+                            <!-- Dynamically populated -->
+                            <li class="empty-message">No upcoming reminders</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Health Tab -->
+                <div id="health" class="tab-content">
+                    <h2><i class="fas fa-heartbeat"></i> Health Tracking</h2>
+                    <div class="health-metrics">
+                        <div class="metric-input">
+                            <label for="blood-pressure">Blood Pressure (mmHg)</label>
+                            <input type="text" id="blood-pressure" placeholder="120/80">
+                        </div>
+                        <div class="metric-input">
+                            <label for="heart-rate">Heart Rate (bpm)</label>
+                            <input type="number" id="heart-rate" placeholder="72">
+                        </div>
+                        <div class="metric-input">
+                            <label for="blood-sugar">Blood Sugar (mg/dL)</label>
+                            <input type="number" id="blood-sugar" placeholder="90">
+                        </div>
+                        <div class="metric-input">
+                            <label for="weight">Weight (kg)</label>
+                            <input type="number" id="weight" placeholder="68">
+                        </div>
+                        <button class="save-btn" id="save-health-data">Save Data</button>
+                    </div>
+                    
+                    <div class="health-history">
+                        <h3>Health History</h3>
+                        <div class="history-chart">
+                            <canvas id="health-chart"></canvas>
+                        </div>
+                        <div class="history-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>BP</th>
+                                        <th>HR</th>
+                                        <th>Sugar</th>
+                                        <th>Weight</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="health-history-data">
+                                    <!-- Dynamically populated -->
+                                    <tr class="empty-message">
+                                        <td colspan="5">No health data recorded yet</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Exercise Tab -->
+                <div id="exercise" class="tab-content">
+                    <h2><i class="fas fa-dumbbell"></i> Exercise</h2>
+                    <div class="exercise-options">
+                        <div class="workout-plans">
+                            <h3>Workout Plans</h3>
+                            <select id="workout-plan-select">
+                                <option value="">Select a plan</option>
+                                <option value="beginner">Beginner Full Body</option>
+                                <option value="intermediate">Intermediate Strength</option>
+                                <option value="advanced">Advanced HIIT</option>
+                                <option value="yoga">Yoga Flow</option>
+                            </select>
+                            <div id="workout-plan-details">
+                                <!-- Plan details will be shown here -->
+                                <p class="empty-message">Select a workout plan to see details</p>
+                            </div>
+                        </div>
+                        
+                        <div class="workout-tracker">
+                            <h3>Track Workout</h3>
+                            <div class="tracker-form">
+                                <div class="form-group">
+                                    <label for="exercise-type">Exercise Type</label>
+                                    <select id="exercise-type">
+                                        <option value="cardio">Cardio</option>
+                                        <option value="strength">Strength</option>
+                                        <option value="flexibility">Flexibility</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exercise-name">Exercise Name</label>
+                                    <input type="text" id="exercise-name" placeholder="e.g., Running, Bench Press">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exercise-duration">Duration (minutes)</label>
+                                    <input type="number" id="exercise-duration" placeholder="30">
+                                </div>
+                                <div class="form-group">
+                                    <label for="calories-burned-input">Calories Burned</label>
+                                    <input type="number" id="calories-burned-input" placeholder="250">
+                                </div>
+                                <button class="save-btn" id="save-workout">Save Workout</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="exercise-history">
+                        <h3>Workout History</h3>
+                        <div class="history-chart">
+                            <canvas id="exercise-chart"></canvas>
+                        </div>
+                        <div class="history-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Exercise</th>
+                                        <th>Type</th>
+                                        <th>Duration</th>
+                                        <th>Calories</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="exercise-history-data">
+                                    <!-- Dynamically populated -->
+                                    <tr class="empty-message">
+                                        <td colspan="5">No workouts recorded yet</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Nutrition Tab -->
+                <div id="nutrition" class="tab-content">
+                    <h2><i class="fas fa-utensils"></i> Nutrition</h2>
+                    <div class="nutrition-planner">
+                        <div class="meal-planning">
+                            <h3>Meal Planning</h3>
+                            <div class="meal-plan-form">
+                                <div class="form-group">
+                                    <label for="meal-type">Meal Type</label>
+                                    <select id="meal-type">
+                                        <option value="breakfast">Breakfast</option>
+                                        <option value="lunch">Lunch</option>
+                                        <option value="dinner">Dinner</option>
+                                        <option value="snack">Snack</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="meal-name">Meal Name</label>
+                                    <input type="text" id="meal-name" placeholder="e.g., Chicken Salad">
+                                </div>
+                                <div class="form-group">
+                                    <label for="meal-calories">Calories</label>
+                                    <input type="number" id="meal-calories" placeholder="350">
+                                </div>
+                                <div class="form-group">
+                                    <label for="meal-carbs">Carbs (g)</label>
+                                    <input type="number" id="meal-carbs" placeholder="30">
+                                </div>
+                                <div class="form-group">
+                                    <label for="meal-protein">Protein (g)</label>
+                                    <input type="number" id="meal-protein" placeholder="25">
+                                </div>
+                                <div class="form-group">
+                                    <label for="meal-fat">Fat (g)</label>
+                                    <input type="number" id="meal-fat" placeholder="10">
+                                </div>
+                                <button class="save-btn" id="save-meal">Save Meal</button>
+                            </div>
+                        </div>
+                        
+                        <div class="meal-suggestions">
+                            <h3>Meal Suggestions</h3>
+                            <div class="suggestion-cards">
+                                <div class="suggestion-card">
+                                    <h4>High Protein Breakfast</h4>
+                                    <p>Greek yogurt with berries and almonds</p>
+                                    <p class="nutrition-facts">320 cal | 25g protein</p>
+                                </div>
+                                <div class="suggestion-card">
+                                    <h4>Balanced Lunch</h4>
+                                    <p>Grilled chicken with quinoa and vegetables</p>
+                                    <p class="nutrition-facts">450 cal | 35g protein</p>
+                                </div>
+                                <div class="suggestion-card">
+                                    <h4>Light Dinner</h4>
+                                    <p>Salmon with sweet potato and asparagus</p>
+                                    <p class="nutrition-facts">400 cal | 30g protein</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="nutrition-history">
+                        <h3>Nutrition History</h3>
+                        <div class="macros-summary">
+                            <div class="macro-card">
+                                <h4>Calories</h4>
+                                <p class="macro-value" id="total-calories">0</p>
+                                <p class="macro-goal">Goal: 2,000</p>
+                            </div>
+                            <div class="macro-card">
+                                <h4>Protein</h4>
+                                <p class="macro-value" id="total-protein">0g</p>
+                                <p class="macro-goal">Goal: 140g</p>
+                            </div>
+                            <div class="macro-card">
+                                <h4>Carbs</h4>
+                                <p class="macro-value" id="total-carbs">0g</p>
+                                <p class="macro-goal">Goal: 250g</p>
+                            </div>
+                            <div class="macro-card">
+                                <h4>Fat</h4>
+                                <p class="macro-value" id="total-fat">0g</p>
+                                <p class="macro-goal">Goal: 70g</p>
+                            </div>
+                        </div>
+                        
+                        <div class="history-chart">
+                            <canvas id="nutrition-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Music Tab -->
+                <div id="music" class="tab-content">
+                    <h2><i class="fas fa-music"></i> Music Player</h2>
+                    <div class="music-player">
+                        <div class="player-controls">
+                            <div class="now-playing">
+                                <img src="download.jpeg" alt="Album Art" id="album-art">
+                                <div class="track-info">
+                                    <h3 id="track-title">No track selected</h3>
+                                    <p id="track-artist">Select a song to play</p>
+                                </div>
+                            </div>
+                            <div class="player-buttons">
+                                <button id="prev-btn"><i class="fas fa-step-backward"></i></button>
+                                <button id="play-btn"><i class="fas fa-play"></i></button>
+                                <button id="next-btn"><i class="fas fa-step-forward"></i></button>
+                            </div>
+                            <div class="progress-container">
+                                <span id="current-time">0:00</span>
+                                <input type="range" id="progress-bar" min="0" max="100" value="0">
+                                <span id="duration">0:00</span>
+                            </div>
+                            <div class="volume-control">
+                                <i class="fas fa-volume-down"></i>
+                                <input type="range" id="volume-slider" min="0" max="100" value="50">
+                                <i class="fas fa-volume-up"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="music-library">
+                            <h3>Music Library</h3>
+                            <input type="file" id="file-input" accept="audio/*" multiple style="display: none;">
+                            <button class="upload-btn" id="upload-music"><i class="fas fa-upload"></i> Upload Music</button>
+                            <div class="playlist">
+                                <ul id="playlist">
+                                    <!-- Songs will be added here -->
+                                    <li class="playlist-item empty-message">No songs in library</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reminders Tab -->
+                <div id="reminders" class="tab-content">
+                    <h2><i class="fas fa-bell"></i> Reminders</h2>
+                    <div class="reminders-manager">
+                        <div class="add-reminder">
+                            <h3>Add New Reminder</h3>
+                            <div class="reminder-form">
+                                <div class="form-group">
+                                    <label for="reminder-title">Reminder Title</label>
+                                    <input type="text" id="reminder-title" placeholder="e.g., Take medication">
+                                </div>
+                                <div class="form-group">
+                                    <label for="reminder-time">Time</label>
+                                    <input type="time" id="reminder-time">
+                                </div>
+                                <div class="form-group">
+                                    <label for="reminder-date">Date</label>
+                                    <input type="date" id="reminder-date">
+                                </div>
+                                <div class="form-group">
+                                    <label for="reminder-repeat">Repeat</label>
+                                    <select id="reminder-repeat">
+                                        <option value="none">Does not repeat</option>
+                                        <option value="daily">Daily</option>
+                                        <option value="weekly">Weekly</option>
+                                        <option value="monthly">Monthly</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="reminder-category">Category</label>
+                                    <select id="reminder-category">
+                                        <option value="general">General</option>
+                                        <option value="medication">Medication</option>
+                                        <option value="exercise">Exercise</option>
+                                        <option value="meal">Meal</option>
+                                        <option value="water">Water</option>
+                                    </select>
+                                </div>
+                                <button class="save-btn" id="save-reminder">Set Reminder</button>
+                            </div>
+                        </div>
+                        
+                        <div class="reminders-list">
+                            <h3>Your Reminders</h3>
+                            <div class="reminder-filters">
+                                <select id="reminder-filter">
+                                    <option value="all">All Reminders</option>
+                                    <option value="today">Today</option>
+                                    <option value="upcoming">Upcoming</option>
+                                    <option value="completed">Completed</option>
+                                </select>
+                            </div>
+                            <ul id="reminders-container">
+                                <!-- Reminders will be added here -->
+                                <li class="empty-message">No reminders set yet</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <footer>
+                <p>&copy; 2023 HealthHub Wellness App. All rights reserved.</p>
+            </footer>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="java.js"></script>
+    <script>
+        function sendreminder() {
+        if (Notification.permission ==="granted"){
+new Notification("Reminder!", {
+    body: "Don't  forget your task!", 
+});
+
+        } else if (Notification.permission !== "denied") {
+            Notification.requestPermission().then(permission => {
+                if(permission === "granted") {
+                    new Notification("remider!", {
+                        body: "Don't forget your task",
+                    });
+                }
+            });
+        }
+
+
+        }
+        </script>
+</body>
+</html>
